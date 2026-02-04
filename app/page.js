@@ -161,3 +161,81 @@ export default function Home() {
                 <>
                   <span className="loading"></span> جاري التحليل...
                 </>
+              ) : (
+                'احصل على خريطتك 🗺️'
+              )}
+            </button>
+          </form>
+        </div>
+      )}
+
+      {/* Step 3: Results */}
+      {step === 3 && result && (
+        <div className="space-y-6">
+          <div className="card">
+            <h2 className="text-3xl font-bold mb-6 text-center gradient-text">
+              🧬 خريطة مهاراتك الجينية
+            </h2>
+            
+            <div className="mb-8">
+              <h3 className="text-xl font-bold mb-3">📊 تحليل مهاراتك:</h3>
+              <div className="bg-purple-50 p-4 rounded-xl">
+                <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                  {result.analysis}
+                </p>
+              </div>
+            </div>
+
+            <div className="mb-8">
+              <h3 className="text-xl font-bold mb-3">🎯 المهارة التالية المقترحة:</h3>
+              <div className="bg-blue-50 p-6 rounded-xl">
+                <h4 className="text-2xl font-bold text-blue-600 mb-2">
+                  {result.nextSkill}
+                </h4>
+                <p className="text-gray-700">{result.reason}</p>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold mb-3">🗺️ خريطة الطريق:</h3>
+              <div className="space-y-4">
+                {result.roadmap && result.roadmap.map((phase, index) => (
+                  <div key={index} className="bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-xl">
+                    <h4 className="font-bold text-lg mb-2">
+                      {index + 1}. {phase.title}
+                    </h4>
+                    <p className="text-gray-700 mb-2">{phase.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {phase.skills && phase.skills.map((skill, i) => (
+                        <span key={i} className="skill-tag">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button 
+              onClick={() => {
+                setStep(1)
+                setResult(null)
+                setFormData({
+                  currentSkills: '',
+                  interests: '',
+                  experience: '',
+                  goals: '',
+                  timeframe: ''
+                })
+              }}
+              className="btn-primary w-full mt-8"
+            >
+              تحليل جديد 🔄
+            </button>
+          </div>
+        </div>
+      )}
+    </main>
+  )
+}
